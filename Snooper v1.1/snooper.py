@@ -6,12 +6,11 @@
 import os
 import argparse
 import time 
-import math
 import stat
 import sys
 from pathlib import Path
 
-user_path = Path.home()
+user_path = Path.home() #Default root directory
 
 parser = argparse.ArgumentParser(prog="Snooper", description="Snooper A lightweight filesystem search tool by Onwuemenyi Joshua Akachukwu")
 group = parser.add_mutually_exclusive_group()
@@ -26,9 +25,6 @@ parser.add_argument("--tree", action="store_true", help="Displays entire filesys
 
 args = parser.parse_args()
 result = 0
-dir_count = 0
-file_count = 0
-dept_count = 0
 
 def search_config(args) :
 	return {
@@ -66,7 +62,7 @@ def snoop(params) : # params should be a dict containing the: root, targets, fla
 		with os.scandir(root) as root_dir :
 			for entry in root_dir :
 				if entry.is_dir() :
-					for target in Targets:
+					for target in Targets: # ensures every targeted file or extension in the Target list is compared to current entry for a match.
 						result += do_checks(target, entry.name, flags["specific"], flags["ignore"], "f",True)
 					new_params = {
 					"root" : entry.path,
@@ -83,15 +79,12 @@ def snoop(params) : # params should be a dict containing the: root, targets, fla
 						case _ :
 							for target in Targets :
 								result += do_checks(target, entry.name,flags["specific"], flags["ignore"])
-
-				# print(entry.path)
-
 	except OSError as e:
-		return print(f"Error occured : [{e.strerror}]", file=sys.stderr)
+		return print(f"Error occured : [{e.strerror}]", file=sys.stderr) #just in case the output stream in pipped or redirected to a file.
 				
 def draw_tree(params, prefix=""):
     try:
-        entries = sorted(
+        entries = sorted( #so directories get printed first.
             os.scandir(params["root"]),
             key=lambda e: (e.is_file(), e.name.lower())
         )
@@ -156,16 +149,15 @@ def time_handler(seconds) :
 
 def init(command_line_args) :
 	config = search_config(command_line_args)
-	print(config["root"])
 	start = time.perf_counter()
 	if config["tree"]: 
-		# print(config["root"])
 		draw_tree(config)
 	else :
 		snoop(config)
 		print(f"{result} result{'s' if result != 1 else ''} found!")
-
 	end = time.perf_counter()
-	diff = math.ceil(end - start)
+	diff = end - start 
 	print(f"Process took {time_handler(diff)}")
+if __name__ == "__main__" :
+	init(args)
 init(args)
