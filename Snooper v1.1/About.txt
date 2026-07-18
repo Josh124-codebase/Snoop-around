@@ -47,9 +47,9 @@ examples :
 	->snooper.py -e .txt .png .csv -D C:\
 	-> snooper.py -V
 	-> snooper.py --version
-	             ---------------------------------------------------------------------------------------
+	             ---------------------------------------------------------------------------------
 	             |     NOTE: -e and -t flags cannot be used together, this raises an error.      |
-	             ---------------------------------------------------------------------------------------
+	             ---------------------------------------------------------------------------------
 ---
 
 --*-- How Snooper Works --*--
@@ -115,7 +115,7 @@ Future releases may introduce:
 Licensed under the MIT License.
 
 	---------------------------------------------------------------------------------------------------------------------------
-	|  	* NOTE : Snooper was built primarily to learn about filesystem operations using Python       |
-	|                 	                      and for the fun of being able to snoop around my entire file system.	                             |
+	|  	* NOTE : Snooper was built primarily to learn about filesystem operations using Python       						  |
+	|                 	                      and for the fun of being able to snoop around my entire file system.	          |
 	---------------------------------------------------------------------------------------------------------------------------
 ---
